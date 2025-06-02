@@ -16,4 +16,7 @@
     <xacro:include filename="$(find franka_fr3_moveit_config)/srdf/fr3_arm_hand.xacro"/>
     <xacro:fr3_arm_hand arm_id="${arm_id}"/>
   </xacro:if>
+
+  <xacro:include filename="$(find franka_fr3_moveit_config)/srdf/fr3_arm_unscrewer.xacro"/>
+  <xacro:fr3_arm_unscrewer arm_id="${arm_id}"/>
 </robot>
