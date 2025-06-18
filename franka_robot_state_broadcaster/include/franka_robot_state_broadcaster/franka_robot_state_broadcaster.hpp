@@ -78,7 +78,7 @@ class FrankaRobotStateBroadcaster : public controller_interface::ControllerInter
     [[nodiscard]] int try_count() const { return try_count_; }
 
    private:
-    const int try_count_ = 10;
+    const int try_count_ = 50; // OZHAN Changed from 10
   };
   // shared_ptr to object of override class
   std::shared_ptr<FrankaRobotStateBroadcaster::FrankaRobotStateRealtimePublisher>
