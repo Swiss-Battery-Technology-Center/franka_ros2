@@ -55,6 +55,8 @@ JointImpedanceWithIKExampleController::state_interface_configuration() const {
     config.names.push_back(franka_robot_model_name);
   }
 
+  config.names.push_back(arm_id_ + "/robot_time");
+
   return config;
 }
 
@@ -235,8 +237,8 @@ CallbackReturn JointImpedanceWithIKExampleController::on_configure(
                                                    arm_id_ + "/" + k_robot_state_interface_name));
 
   auto collision_client = get_node()->create_client<franka_msgs::srv::SetFullCollisionBehavior>(
-      "/service_server/set_full_collision_behavior");
-  compute_ik_client_ = get_node()->create_client<moveit_msgs::srv::GetPositionIK>("/compute_ik");
+      "service_server/set_full_collision_behavior");
+  compute_ik_client_ = get_node()->create_client<moveit_msgs::srv::GetPositionIK>("compute_ik");
 
   while (!compute_ik_client_->wait_for_service(1s) || !collision_client->wait_for_service(1s)) {
     if (!rclcpp::ok()) {
@@ -259,7 +261,7 @@ CallbackReturn JointImpedanceWithIKExampleController::on_configure(
   }
 
   auto parameters_client =
-      std::make_shared<rclcpp::AsyncParametersClient>(get_node(), "/robot_state_publisher");
+      std::make_shared<rclcpp::AsyncParametersClient>(get_node(), "robot_state_publisher");
   parameters_client->wait_for_service();
 
   auto future = parameters_client->get_parameters({"robot_description"});

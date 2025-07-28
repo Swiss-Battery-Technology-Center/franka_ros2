@@ -1,15 +1,55 @@
 Changelog for package franka_ros2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Pending Release:
-----------------
+v2.0.2 (2025-07-09)
+-------------------
+Requires libfranka >= 0.15.0 and franka_description >= 1.0.0 requires ROS 2 Humble
+
+* refactor: srdf files come from franka description
+* Fix: FrankaHardwareInterface: Fix eager claiming bug when multiple hardware components are present
+* Fix: joint_state_publisher uses correct topics to avoid rviz glitches
+
+v2.0.1 (2025-06-26)
+-------------------
+Requires libfranka >= 0.15.0 and franka_description >= 1.0.0 requires ROS 2 Humble
+
+* Fix: joint_impedance_with_ik_example_controller uses correct time from robot
+
+v2.0.0 (2025-06-10)
+-------------------
+Requires libfranka >= 0.15.0 and franka_description >= 0.5.0 requires ROS 2 Humble
+
+* BREAKING CHANGE: `franka.launch.py` is adapted to use namespaces
+* BREAKING CHANGE: the controller examples were removed to use a single launch script named `example.launch.py`, which can launch multiple robots and takes the arguments from a config file named `franka.config.yaml`
+* Fix: franka gripper works with namespaces
+* Add: `example.launch.py` - a single launch script to launch any number of namespaces
+* Feat: `franka.launch.py` can launch different robots in specific namespaces
+* Add: `franka.config.yaml` to configure the input arguments for multiple robots
+* Add: `controllers.yaml` controller file for namespace-agnostic launch of existing controllers
+
+
+v1.0.2 (2025-05-30)
+-------------------
+
+Requires libfranka >= 0.15.0 and franka_description >= 0.5.0 requires ROS 2 Humble
+
+* Fix: gripper example controller does not start any hardware interface
+
+
+v1.0.1 (2025-05-26)
+------------------
+
+Requires libfranka >= 0.15.0 and franka_description >= 0.5.0 requires ROS 2 Humble
+
+* Fix: FrankaRobotStateBroadcaster Lock issue - add configurable timeout (see controllers.yaml)
 * Add: vcstool import for compatible libfranka and franka_description
 * Fix: Franka robot state broadcaster GitHub Issue #94 and #105
 * Test: Re-enable a test and provide Mock functions
 * Style: Adjust clang-tidy config due to changes in generate_parameter_library()
 * Chore: Eliminate annoying CMake configure time messages
 * Feat: Added prefix to single robot control
-
+* Doc: Added a link to the Gazebo README.md for better visibility
+* Breaking feat: Automatically spawn command interfaces depending on the configured ones coming from the URDF
 
 
 v1.0.0 (2025-01-22)
@@ -44,7 +84,7 @@ Requires libfranka >= 0.13.2 and franka_description >= 0.3.0 requires ROS 2 Humb
 Requires libfranka >= 0.13.2, and franka_description >= 0.2.0 requires ROS 2 Humble
 
 * BREAKING CHANGE: franka_description package
-* BREAKING CHANGE: using the franka_description standalone package https://github.com/frankaemika/franka_description
+* BREAKING CHANGE: using the franka_description standalone package https://github.com/frankarobotics/franka_description
 * build:  install pinocchio dependency from ros-humble-pinocchio apt package
 * feat: Added error recovery action to ROS 2 node
 * fix: hard-coded panda robot references

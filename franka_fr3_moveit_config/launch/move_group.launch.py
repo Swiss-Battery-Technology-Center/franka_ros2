@@ -23,7 +23,6 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
-
 import yaml
 
 
@@ -42,12 +41,14 @@ def generate_launch_description():
     load_gripper_parameter_name = 'load_gripper'
     use_fake_hardware_parameter_name = 'use_fake_hardware'
     fake_sensor_commands_parameter_name = 'fake_sensor_commands'
+    namespace_parameter_name = 'namespace'
 
     robot_ip = LaunchConfiguration(robot_ip_parameter_name)
     load_gripper = LaunchConfiguration(load_gripper_parameter_name)
     use_fake_hardware = LaunchConfiguration(use_fake_hardware_parameter_name)
     fake_sensor_commands = LaunchConfiguration(
         fake_sensor_commands_parameter_name)
+    namespace = LaunchConfiguration(namespace_parameter_name)
 
     db_arg = DeclareLaunchArgument(
         'db', default_value='False', description='Database flag'
@@ -80,8 +81,8 @@ def generate_launch_description():
         robot_description_command, value_type=str)}
 
     franka_semantic_xacro_file = os.path.join(
-        get_package_share_directory('franka_fr3_moveit_config'),
-        'srdf', 'fr3_arm.srdf.xacro'
+        get_package_share_directory('franka_description'),
+        'robots', 'fr3', 'fr3.srdf.xacro'
     )
 
     robot_description_semantic_command = Command(
@@ -99,6 +100,7 @@ def generate_launch_description():
     run_move_group_node = Node(
         package='moveit_ros_move_group',
         executable='move_group',
+        namespace=namespace,
         parameters=[
             robot_description,
             robot_description_semantic,
