@@ -82,10 +82,10 @@ def generate_launch_description():
         robot_description_config, value_type=str)}
 
     franka_semantic_xacro_file = os.path.join(
-        get_package_share_directory('franka_fr3_moveit_config'),
-        'srdf',
-        'fr3_arm.srdf.xacro'
+        get_package_share_directory('franka_description'),
+        'robots', 'fr3', 'fr3.srdf.xacro'
     )
+
 
     robot_description_semantic_config = Command(
         [FindExecutable(name='xacro'), ' ',
@@ -244,11 +244,16 @@ def generate_launch_description():
         description="Fake sensor commands. Only valid when '{}' is true".format(
             use_fake_hardware_parameter_name))
     gripper_launch_file = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([PathJoinSubstitution(
-            [FindPackageShare('franka_gripper'), 'launch', 'gripper.launch.py'])]),
-        launch_arguments={'robot_ip': robot_ip,
-                          use_fake_hardware_parameter_name: use_fake_hardware}.items(),
+        PythonLaunchDescriptionSource(
+            [PathJoinSubstitution([FindPackageShare('franka_gripper'), 'launch', 'gripper.launch.py'])]
+        ),
+        launch_arguments={
+            'robot_ip': robot_ip,
+            'use_fake_hardware': use_fake_hardware,
+            'namespace': ''   # or whatever namespace you want to use
+        }.items(),
     )
+
     return LaunchDescription(
         [robot_arg,
          use_fake_hardware_arg,
